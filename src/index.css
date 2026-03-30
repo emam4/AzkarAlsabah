@@ -192,7 +192,7 @@ body {
 }
 
 .zikr-card__bless {
-  font-size: 0.9rem;
+  font-size: 1.5HashRouterrem;
   color: var(--text-bless);
   line-height: 1.75;
   padding: 0.625rem 0.875rem;

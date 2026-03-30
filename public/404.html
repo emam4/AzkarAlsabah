@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      // GitHub Pages SPA redirect — dynamically detect the base path
+      var parts = window.location.pathname.split('/').filter(Boolean);
+      var base = parts.length > 1 ? '/' + parts[0] : '';
+      var path = '/' + parts.slice(1).join('/');
+      window.location.replace(
+        window.location.origin + base + '/?path=' + encodeURIComponent(path)
+      );
+    </script>
+  </head>
+</html>

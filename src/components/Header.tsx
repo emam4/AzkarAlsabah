@@ -1,33 +1,32 @@
-import type { AzkarCategory } from '../types'
+import { NavLink, useLocation } from 'react-router-dom'
 
 interface Props {
-  category: AzkarCategory
-  onCategoryChange: (cat: AzkarCategory) => void
   theme: 'dark' | 'light'
   onThemeToggle: () => void
 }
 
-export default function Header({ category, onCategoryChange, theme, onThemeToggle }: Props) {
+export default function Header({ theme, onThemeToggle }: Props) {
+  const { pathname } = useLocation()
+  const title = pathname === '/evening' ? 'أذكار المساء' : 'أذكار الصباح'
+
   return (
     <header className="header">
-      <h1 className="header__title">
-        {category === 'sabah' ? 'أذكار الصباح' : 'أذكار المساء'}
-      </h1>
+      <h1 className="header__title">{title}</h1>
       <div className="header__controls">
-        <div className="header__tabs">
-          <button
-            className={`tab ${category === 'sabah' ? 'tab--active' : ''}`}
-            onClick={() => onCategoryChange('sabah')}
+        <nav className="header__tabs">
+          <NavLink
+            to="/morning"
+            className={({ isActive }) => `tab ${isActive ? 'tab--active' : ''}`}
           >
             الصباح
-          </button>
-          <button
-            className={`tab ${category === 'masaa' ? 'tab--active' : ''}`}
-            onClick={() => onCategoryChange('masaa')}
+          </NavLink>
+          <NavLink
+            to="/evening"
+            className={({ isActive }) => `tab ${isActive ? 'tab--active' : ''}`}
           >
             المساء
-          </button>
-        </div>
+          </NavLink>
+        </nav>
         <button
           className="theme-btn"
           onClick={onThemeToggle}

@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import AzkarPage from './components/AzkarPage'
 import Header from './components/Header'
-import type { AzkarCategory } from './types'
 
 type Theme = 'dark' | 'light'
 
 function App() {
-  const [category, setCategory] = useState<AzkarCategory>('sabah')
-  const [theme, setTheme] = useState<Theme>('dark')
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem('theme') as Theme) ?? 'dark'
+  )
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
   }, [theme])
 
   function toggleTheme() {
@@ -19,14 +21,13 @@ function App() {
 
   return (
     <div className="app">
-      <Header
-        category={category}
-        onCategoryChange={setCategory}
-        theme={theme}
-        onThemeToggle={toggleTheme}
-      />
+      <Header theme={theme} onThemeToggle={toggleTheme} />
       <main>
-        <AzkarPage key={category} category={category} />
+        <Routes>
+          <Route path="/morning" element={<AzkarPage category="sabah" />} />
+          <Route path="/evening" element={<AzkarPage category="masaa" />} />
+          <Route path="*" element={<Navigate to="/morning" replace />} />
+        </Routes>
       </main>
     </div>
   )
